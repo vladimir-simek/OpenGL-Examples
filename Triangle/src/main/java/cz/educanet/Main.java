@@ -41,7 +41,7 @@ public class Main {
                 GLFW.glfwSetWindowShouldClose(window, true); // Send a shutdown signal...
 
             // Change the background color
-            GL33.glClearColor(1f, 1f, 0f, 1f);
+            GL33.glClearColor(1f, 0f, 0f, 1f);
             GL33.glClear(GL33.GL_COLOR_BUFFER_BIT);
 
             Game.render(window);
