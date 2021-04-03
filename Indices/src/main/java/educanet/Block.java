@@ -38,6 +38,13 @@ public class Block {
 
         IntBuffer intBuffer = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
 
+        GL33.glBufferData(GL33.GL_ELEMENT_ARRAY_BUFFER, intBuffer, GL33.GL_STATIC_DRAW);
+        GL33.glBindBuffer(GL33.GL_ARRAY_BUFFER, vboId);
+
+        FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(vertices.length).put(vertices).flip();
+
+        GL33.glBufferData(GL33.GL_ARRAY_BUFFER, floatBuffer, GL33.GL_STATIC_DRAW);
+        GL33.glVertexAttribPointer(0,3,GL33.GL_FLOAT,false,0,0);
 
 
     }
