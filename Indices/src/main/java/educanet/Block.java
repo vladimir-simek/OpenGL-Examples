@@ -33,6 +33,11 @@ public class Block {
         vboId = GL33.glGenBuffers();
         eboId = GL33.glGenBuffers();
 
+        GL33.glBindVertexArray(vaoId);
+        GL33.glBindBuffer(GL33.GL_ELEMENT_ARRAY_BUFFER, eboId);
+
+        IntBuffer intBuffer = BufferUtils.createIntBuffer(indices.length).put(indices).flip();
+
 
 
     }
