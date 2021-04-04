@@ -46,6 +46,15 @@ public class Block {
         GL33.glBufferData(GL33.GL_ARRAY_BUFFER, floatBuffer, GL33.GL_STATIC_DRAW);
         GL33.glVertexAttribPointer(0,3,GL33.GL_FLOAT,false,0,0);
 
+        MemoryUtil.memFree(floatBuffer);
+        MemoryUtil.memAddress(intBuffer);
 
+    }
+
+    public void render () {
+        GL33.glUseProgram(cz.educanet.Shaders.shaderProgramId);
+
+        GL33.glBindVertexArray(vaoId);
+        GL33.glDrawElements(GL33.GL_TRIANGLES, indices.length, GL33.GL_UNSIGNED_INT, 0);
     }
 }

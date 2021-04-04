@@ -111,6 +111,18 @@ public class Main {
         ArrayList<String> arrayList = getMazeCode(1);
         System.out.println(arrayList.size());
 
+        int mazeLength = arrayList.size();
+        float mazeSize = 2 / (float) mazeLength;
+
+        Block[][] blocks = new Block[mazeLength][mazeLength];
+        char[][] identities = new char[mazeLength][mazeLength];
+
+        for (int i = 0; i < mazeLength; i++) {
+            for (int j = 0; j < mazeLength; j++) {
+                identities[i][j] = arrayList.get(i).charAt(j);
+            }
+        }
+
         //region: Window init
         GLFW.glfwInit();
         // Tell GLFW what version of OpenGL we want to use.
@@ -139,7 +151,14 @@ public class Main {
 
         // Main game loop
         Shaders.initShaders();
-        Game.init(window);
+
+        for (int i = 0; i < identities.length; i++) {
+            for (int j = 0; j < mazeLength; j++) {
+                if (identities[i][j] == '1'){
+                    blocks[i][j] = new Block((j*mazeSize-1), 1- (i*mazeSize), mazeSize);
+                } else  blocks[i][j] = null;
+            }
+        }
 
         // Draw in polygon mod
         //GL33.glPolygonMode(GL33.GL_FRONT_AND_BACK, GL33.GL_LINE);
@@ -152,8 +171,13 @@ public class Main {
             GL33.glClearColor(0f, 0f, 0f, 1f);
             GL33.glClear(GL33.GL_COLOR_BUFFER_BIT);
 
-            Game.render(window);
-            Game.update(window);
+            for (int i = 0; i < blocks.length; i++) {
+                for (int j = 0; j < blocks.length; j++) {
+                    if (blocks[i][j] != null) {
+                        blocks[i][j].render();
+                    }
+                }
+            }
 
             // Swap the color buffer -> screen tearing solution
             GLFW.glfwSwapBuffers(window);
