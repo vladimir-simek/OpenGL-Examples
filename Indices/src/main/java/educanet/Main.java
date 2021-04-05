@@ -4,12 +4,6 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL33;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Main {
 
     /**
@@ -17,8 +11,7 @@ public class Main {
      * @param number int
      * @return ArrayList
      */
-    public static ArrayList<String> getMazeCode(int number){
-        ArrayList<String> arrayList = new ArrayList<>();
+    public static String[] getMazeCode(int number){
 
         String maze1 = "101111111000111011101010000001\n" +
                 "100000101101101100111011111111\n" +
@@ -70,25 +63,12 @@ public class Main {
 
         String[] strings = null;
 
-        switch (number) {
-            case 1: {
-                strings = maze1.split("\n");
-
-                Collections.addAll(arrayList, strings);
-            }
-            case 2: {
-                strings = maze2.split("\n");
-
-                Collections.addAll(arrayList, strings);
-            }
-            case 3: {
-                strings = maze3.split("\n");
-
-                Collections.addAll(arrayList, strings);
-            }
-
-            break;
-            default: throw new IllegalStateException("Unexpected value: " + number);
+        if (number == 1) {
+            strings = maze1.split("\n");
+        } else if (number == 2) {
+            strings = maze2.split("\n");
+        } else if (number == 3) {
+            strings = maze3.split("\n");
         }
 
         /*try {
@@ -103,23 +83,25 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        return arrayList;
+    //to je na picu dam to tam na pevno
+
+        return strings;
     }
 
     public static void main(String[] args) throws Exception {
 
-        ArrayList<String> arrayList = getMazeCode(1);
-        System.out.println(arrayList.size());
+        String[] laStrings = getMazeCode(1);
+        System.out.println(laStrings.length);
 
-        int mazeLength = arrayList.size();
-        float mazeSize = 2 / (float) mazeLength;
+        int mazeLength = laStrings.length;
+
 
         Block[][] blocks = new Block[mazeLength][mazeLength];
         char[][] identities = new char[mazeLength][mazeLength];
 
         for (int i = 0; i < mazeLength; i++) {
             for (int j = 0; j < mazeLength; j++) {
-                identities[i][j] = arrayList.get(i).charAt(j);
+                identities[i][j] = laStrings[i].charAt(j);
             }
         }
 
@@ -144,9 +126,7 @@ public class Main {
         GL33.glViewport(0, 0, 800, 600);
 
         // Resize callback
-        GLFW.glfwSetFramebufferSizeCallback(window, (win, w, h) -> {
-            GL33.glViewport(0, 0, w, h);
-        });
+        GLFW.glfwSetFramebufferSizeCallback(window, (win, w, h) -> GL33.glViewport(0, 0, w, h));
         //endregion
 
         // Main game loop
@@ -154,8 +134,8 @@ public class Main {
 
         for (int i = 0; i < identities.length; i++) {
             for (int j = 0; j < mazeLength; j++) {
-                if (identities[i][j] == '1'){
-                    blocks[i][j] = new Block((j*mazeSize-1), 1- (i*mazeSize), mazeSize);
+                if (identities[i][j] == '0'){
+                    blocks[i][j] = new Block((j*(2 /(float) mazeLength)-1), 1- (i*2 /(float) mazeLength), (2 /(float) mazeLength));
                 } else  blocks[i][j] = null;
             }
         }
@@ -171,10 +151,10 @@ public class Main {
             GL33.glClearColor(0f, 0f, 0f, 1f);
             GL33.glClear(GL33.GL_COLOR_BUFFER_BIT);
 
-            for (int i = 0; i < blocks.length; i++) {
+            for (Block[] block : blocks) {
                 for (int j = 0; j < blocks.length; j++) {
-                    if (blocks[i][j] != null) {
-                        blocks[i][j].render();
+                    if (block[j] != null) {
+                        block[j].render();
                     }
                 }
             }

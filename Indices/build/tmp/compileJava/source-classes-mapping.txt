@@ -2,9 +2,7 @@ educanet/Game.java
  educanet.Game
 educanet/Shaders.java
  educanet.Shaders
-cz/educanet/Shaders.java
- cz.educanet.Shaders
-educanet/Main.java
- educanet.Main
 educanet/Block.java
  educanet.Block
+educanet/Main.java
+ educanet.Main
