@@ -114,7 +114,7 @@ public class Main {
 
         // Create the window...
         // We can set multiple options with glfwWindowHint ie. fullscreen, resizability etc.
-        long window = GLFW.glfwCreateWindow(800, 600, "My first window", 0, 0);
+        long window = GLFW.glfwCreateWindow(800, 600, "I want to die: Java Edition 1.17.3", 0, 0);
         if (window == 0) {
             GLFW.glfwTerminate();
             throw new Exception("Can't open window");
